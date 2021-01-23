@@ -19,11 +19,11 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
-    // Check prefix
-    if (!message.content.startsWith(process.env.PREFIX) || message.author.bot) return;
+    // Check command prefix
+    if (!message.content.startsWith(process.env.PRFX) || message.author.bot) return;
 
     // Get arguments and command
-    const args = message.content.slice(process.env.PREFIX.length).trim().split(/ +/);
+    const args = message.content.slice(process.env.PRFX.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
     // Get command aliases
@@ -36,7 +36,7 @@ client.on('message', message => {
     if (command.args && !args.length) {
         let reply = `You didn't provide any arguments, ${message.author}!`;
         if (command.usage) {
-            reply += `\nThe proper usage would be: \`${process.env.PREFIX}${command.name} ${command.usage}\``;
+            reply += `\nThe proper usage would be: \`${process.env.PRFX}${command.name} ${command.usage}\``;
         }
 
         return message.channel.send(reply);
