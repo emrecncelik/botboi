@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 module.exports = {
     name: 'gif',
-    description: 'Get a gif from tenor.',
+    description: 'Get a gif from tenor with given search query.',
     args: true,
     usage: '<search query>',
     async execute(message, args) {
@@ -22,6 +22,7 @@ module.exports = {
     },
 };
 
+// convert search query from Turkish chars to English chars
 String.prototype.turkishtoEnglish = function() {
     return this.replace('Ğ', 'g')
         .replace('Ü', 'u')

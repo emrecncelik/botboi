@@ -15,7 +15,7 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-    console.log('Ready!');
+    console.log('Botboi is up and running.');
 });
 
 client.on('message', message => {
