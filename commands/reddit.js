@@ -20,26 +20,17 @@ module.exports = {
             
         const subreddit = await r.getSubreddit(subreddit_query);
         const topPosts = await subreddit.getTop({time: time_query, limit: limit_query});
-/*
-        let data = [];
 
-        topPosts.forEach((post) => {
-            data.push({
-                link: post.url,
-                text: post.title,
-                score: post.score
-            })
-        });
-*/
-        post = topPosts[0]
-        message.channel.send(makeEmbed(post));
-        
-        // Send url if the post contains media or url
-        // Embed gifs or videos don't work, so sending media separately
-        if (!post.is_self){
-            message.channel.send(post.url)
+        for (i = 0; i < topPosts.length; i++) {     
+            post = topPosts[i]
+            message.channel.send(makeEmbed(post));
+            // Send url if the post contains media or url
+            // Embed gifs or videos don't work, so sending media separately
+            if (!post.is_self){
+                message.channel.send(post.url)
+            }
+            console.log(post.title);
         }
-        console.log(post);
     }
 };
 
