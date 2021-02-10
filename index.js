@@ -26,7 +26,7 @@ client.on('message', message => {
     const args = message.content.slice(process.env.PRFX.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    // Get command aliases
+    // Get command aliase
     const command = client.commands.get(commandName)
         || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
@@ -52,4 +52,4 @@ client.on('message', message => {
     }
 });
 
-client.login(process.env.BOTTOKEN);
+client.login(process.env.DC_API_TOKEN);
