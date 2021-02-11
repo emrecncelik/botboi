@@ -18,9 +18,6 @@ bridge = botboi_bridge.dc_telegram_bridge(group_user_id,bot)
 @bot.message_handler(commands=['online_dc'])
 def get_online_dc_users(message):
 	bot.reply_to(message, "Yalnız onu yanlış kodluyorsun kardeşim.")
-    
-
-@bot.message_handler(commands=['getReddit'])
 
 argc = len(sys.argv)
 
