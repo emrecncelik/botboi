@@ -20,6 +20,8 @@ def get_online_dc_users(message):
 	bot.reply_to(message, "Yalnız onu yanlış kodluyorsun kardeşim.")
     
 
+@bot.message_handler(commands=['getReddit'])
+
 argc = len(sys.argv)
 
 #If script has called with parameters it means invoked by discord bot
