@@ -11,39 +11,39 @@ module.exports = {
             userAgent: 'A random string? I actually do not know what this is.',
             clientId: process.env.REDDIT_CLIENT_ID,
             clientSecret: process.env.REDDIT_CLIENT_SECRET,
-            refreshToken: process.env.REDDIT_REFRESH
-        })
+            refreshToken: process.env.REDDIT_REFRESH,
+        });
 
-        subreddit_query = args[0]
-        time_query = args[1]
-        limit_query = parseInt(args[2])
-            
+        const subreddit_query = args[0];
+        const time_query = args[1];
+        const limit_query = parseInt(args[2]);
+
         const subreddit = await r.getSubreddit(subreddit_query);
-        const topPosts = await subreddit.getTop({time: time_query, limit: limit_query});
+        const topPosts = await subreddit.getTop({ time: time_query, limit: limit_query });
 
-        for (i = 0; i < topPosts.length; i++) {     
-            post = topPosts[i]
+        for (let i = 0; i < topPosts.length; i++) {
+            const post = topPosts[i];
             message.channel.send(makeEmbed(post));
             // Send url if the post contains media or url
             // Embed gifs or videos don't work, so sending media separately
-            if (!post.is_self){
-                message.channel.send(post.url)
+            if (!post.is_self) {
+                message.channel.send(post.url);
             }
             console.log(post.title);
         }
-    }
+    },
 };
 
 function makeEmbed(post) {
-    sub_name = post.subreddit_name_prefixed
-    title = post.title
-    text = post.selftext
-    url = "https://www.reddit.com" + post.permalink
+    const sub_name = post.subreddit_name_prefixed;
+    const title = post.title;
+    const text = post.selftext;
+    const url = 'https://www.reddit.com' + post.permalink;
 
     const redditEmbed = new Discord.MessageEmbed()
-    .setAuthor(sub_name)
-    .setTitle(title)
-    .setDescription(text)
-    .setURL(url)
-    return redditEmbed
+        .setAuthor(sub_name)
+        .setTitle(title)
+        .setDescription(text)
+        .setURL(url);
+    return redditEmbed;
 }

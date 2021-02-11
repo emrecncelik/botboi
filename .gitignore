@@ -2,3 +2,4 @@
 /telegram-script/assets/
 /telegram-script/__pycache__
 .vscode/settings.json
+__pycache__/
