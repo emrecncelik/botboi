@@ -7,6 +7,7 @@ from discord.ext import commands
 """
 Commands:
     -whoisthis: replies with reddit username
+    -sub: lists n number submissions from a given subreddit and time filter
 """
 
 REDDIT_USERNAME = config('REDDIT_USERNAME')
@@ -37,9 +38,28 @@ class reddit(commands.Cog, name='reddit'):
         except Exception as ex:
             await context.message.reply(f'I don\'t know who I am anymore... (check the logs btw)')
             raise ex
-        await self.reddit.close()
+        finally:
+            await self.reddit.close()
 
     
+    @commands.command(name='sub')
+    async def sub(self,
+                  context,
+                  subreddit_name: str='funny',
+                  time_filter: str='all',
+                  num_of_submissions: int=5):
+        # max of 10 posts allowed at once
+        try:
+            if num_of_submissions > 10: num_of_submissions = 10
+            self.init_reddit_client()
+            subreddit = await self.reddit.subreddit(display_name=subreddit_name)
+
+            # allowed time filters: day, week, hour, month, all, year
+            async for submission in subreddit.top(time_filter=time_filter,
+                                                limit=num_of_submissions):
+                await context.channel.send(submission.url)
+        finally:
+            await self.reddit.close()
 
 def setup(bot):
     bot.add_cog(reddit(bot))
