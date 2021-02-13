@@ -14,6 +14,7 @@ DISCORD_API_TOKEN = config('DISCORD_API_TOKEN')
 
 bot = Bot(command_prefix=PRFX)
 
+
 @bot.event
 async def on_ready():
     active_guilds = [(guild.name, guild.member_count) for guild in bot.guilds]
@@ -32,9 +33,10 @@ async def on_ready():
         except Exception as ex:
             print(f'\t-{cog} not loaded\n\t\t{ex}')
 
+
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
-
+    
 
 bot.run(DISCORD_API_TOKEN)

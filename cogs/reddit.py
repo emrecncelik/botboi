@@ -17,6 +17,9 @@ REDDIT_CLIENT_SECRET = config('REDDIT_CLIENT_SECRET')
 class reddit(commands.Cog, name='reddit'):
     def __init__(self, bot):
         self.bot = bot
+
+
+    def init_reddit_client(self):
         self.reddit = asyncpraw.Reddit(client_id=REDDIT_CLIENT_ID,
                                        client_secret=REDDIT_CLIENT_SECRET,
                                        user_agent='discord-botboi',
@@ -27,13 +30,16 @@ class reddit(commands.Cog, name='reddit'):
 
     @commands.command(name='whoisthis')
     async def whoisthis(self, context):
+        self.init_reddit_client()
         try:
             user = await self.reddit.user.me()
             await context.message.reply(f'Yo it\'s me, {user}')
         except Exception as ex:
             await context.message.reply(f'I don\'t know who I am anymore... (check the logs btw)')
             raise ex
+        await self.reddit.close()
 
+    
 
 def setup(bot):
     bot.add_cog(reddit(bot))
