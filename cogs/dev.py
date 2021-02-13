@@ -9,6 +9,9 @@ Commands:
              commands without closing the bot
     -gtfo: closes bot, in a rude way
     -delete: deletes given number of messages
+
+TODO
+-Developer authorization
 """
 
 class dev(commands.Cog, name='dev'):

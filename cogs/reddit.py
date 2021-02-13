@@ -8,6 +8,13 @@ from discord.ext import commands
 Commands:
     -whoisthis: replies with reddit username
     -sub: lists n number submissions from a given subreddit and time filter
+    -subsearch: lists n number of submissions from a given subreddit and time filter with search query
+
+TODO
+-Add support for multiple word search query and command options
+    -ex. !command -opt1 input1 -opt2 input2
+    -maybe merge !subsearch with !sub?
+-Find a better way to initialize and close reddit instance (client)
 """
 
 REDDIT_USERNAME = config('REDDIT_USERNAME')
@@ -45,7 +52,7 @@ class reddit(commands.Cog, name='reddit'):
     @commands.command(name='sub')
     async def sub(self,
                   context,
-                  subreddit_name: str='funny',
+                  subreddit_name: str,
                   time_filter: str='all',
                   num_of_submissions: int=5):
         # max of 10 posts allowed at once
@@ -56,10 +63,31 @@ class reddit(commands.Cog, name='reddit'):
 
             # allowed time filters: day, week, hour, month, all, year
             async for submission in subreddit.top(time_filter=time_filter,
-                                                limit=num_of_submissions):
+                                                  limit=num_of_submissions):
                 await context.channel.send(submission.url)
         finally:
             await self.reddit.close()
+
+
+    @commands.command(name='subsearch')
+    async def subsearch(self,
+                        context,
+                        subreddit_name: str,
+                        query: str,
+                        time_filter: str='all',
+                        num_of_submissions: int=5,
+                        sort: str='top'):
+        try:
+            self.init_reddit_client()
+            subreddit = await self.reddit.subreddit(display_name=subreddit_name)
+            async for submission in subreddit.search(query=query,
+                                                     sort=sort, 
+                                                     time_filter=time_filter,
+                                                     limit=num_of_submissions,):
+                await context.channel.send(submission.url)
+        finally:
+            await self.reddit.close()
+
 
 def setup(bot):
     bot.add_cog(reddit(bot))
