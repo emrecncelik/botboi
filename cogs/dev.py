@@ -1,6 +1,9 @@
 import asyncio
 import discord
+import fileinput
+from decouple import config
 from discord.ext import commands
+
 
 """
 Commands:
@@ -9,14 +12,37 @@ Commands:
              commands without closing the bot
     -gtfo: closes bot, in a rude way
     -delete: deletes given number of messages
+    -authorize: authorize a user to use these commands
 
 TODO
 -Developer authorization
 """
 
+
 class dev(commands.Cog, name='dev'):
     def __init__(self, bot):
         self.bot = bot
+        self.AUTHORIZED_DEV_DC_ID = config('AUTHORIZED_DEV_DC_ID').split(',')
+
+    async def cog_check(self, context):
+        is_authorized = str(context.author.id) in self.AUTHORIZED_DEV_DC_ID
+        if is_authorized:
+            return is_authorized      
+        else:
+            await context.message.reply('You are not authorized to use dev commands.')
+            return is_authorized
+    
+    
+    @commands.command(name='authorize')
+    async def authorize(self, context, user_id: str):
+        for line in fileinput.input(".env", inplace=True):
+            if 'AUTHORIZED_DEV_DC_ID' in line:
+                self.AUTHORIZED_DEV_DC_ID.append(user_id)
+                new_authorized = ','.join(self.AUTHORIZED_DEV_DC_ID)
+                new_line = 'AUTHORIZED_DEV_DC_ID=' + new_authorized
+                print(new_line, end='\n')
+            else:
+                print(line, end='')
 
 
     @commands.command(name='foo',
