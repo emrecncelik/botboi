@@ -1,9 +1,5 @@
-import discord
-import logging
-
 from decouple import config
 from tabulate import tabulate
-from discord.ext import commands
 from discord.ext.commands import Bot
 
 # logging.basicConfig(level=logging.INFO)
@@ -23,7 +19,7 @@ async def on_ready():
                              tablefmt='orgtbl')
     print(f'Logged in as {bot.user}')
     print(f'Active guilds:\n{active_guilds}\n')
-    print(f'Loading Cogs:')
+    print('Loading Cogs:')
 
     # Automatically load cogs on start
     for cog in COGS:
@@ -37,6 +33,6 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
-    
+
 
 bot.run(DISCORD_API_TOKEN)
