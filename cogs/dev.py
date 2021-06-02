@@ -1,5 +1,4 @@
 import asyncio
-import discord
 import fileinput
 from decouple import config
 from discord.ext import commands
@@ -27,12 +26,12 @@ class dev(commands.Cog, name='dev'):
     async def cog_check(self, context):
         is_authorized = str(context.author.id) in self.AUTHORIZED_DEV_DC_ID
         if is_authorized:
-            return is_authorized      
-        else:
-            await context.message.reply('You are not authorized to use dev commands.')
             return is_authorized
-    
-    
+        else:
+            await context.message.\
+                reply('You are not authorized to use dev commands.')
+            return is_authorized
+
     @commands.command(name='authorize')
     async def authorize(self, context, user_id: str):
         for line in fileinput.input(".env", inplace=True):
@@ -44,16 +43,16 @@ class dev(commands.Cog, name='dev'):
             else:
                 print(line, end='')
 
-
-    @commands.command(name='foo',
-                      help='Replies to your foo-ish message in a foo-ish way')
+    @commands.command(
+        name='foo',
+        help='Replies to your foo-ish message in a foo-ish way')
     async def foo(self, context):
         await context.message.reply('Foo indeed.')
 
-
-    @commands.command(name='reload',
-                      aliases=['update'],
-                      help='Reloads (updates) given command(s)')
+    @commands.command(
+        name='reload',
+        aliases=['update'],
+        help='Reloads (updates) given command(s)')
     async def reload(self, context, *args):
         print('Reloading Cogs:')
         for cog in args:
@@ -62,11 +61,11 @@ class dev(commands.Cog, name='dev'):
                 print(f'\t-{cog} reloaded')
             except Exception as ex:
                 print(f'\t-{cog} not reloaded\n\t\t{ex}')
-                
 
-    @commands.command(name='gtfo',
-                      aliases=['bye', 'fuckoff', 'poweroff', 'close'],
-                      help='Closes the bot')
+    @commands.command(
+        name='gtfo',
+        aliases=['bye', 'fuckoff', 'poweroff', 'close'],
+        help='Closes the bot')
     async def gtfo(self, context):
         print(f'Bot closed by {context.message.author}')
         await context.message.add_reaction('🖕')
@@ -76,10 +75,10 @@ class dev(commands.Cog, name='dev'):
         await response.delete()
         await self.bot.logout()
 
-
-    @commands.command(name='delete',
-                      aliases=['purge', 'clear'],
-                      help='Deletes given number of previous messages (max. 100)')
+    @commands.command(
+        name='delete',
+        aliases=['purge', 'clear'],
+        help='Deletes given number of previous messages (max. 100)')
     async def delete(self, context, num_messages: int):
         channel = context.channel
         await channel.purge(limit=num_messages+1,
@@ -92,4 +91,4 @@ class dev(commands.Cog, name='dev'):
 
 
 def setup(bot):
-    bot.add_cog(dev(bot)) 
+    bot.add_cog(dev(bot))
