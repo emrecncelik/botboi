@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import sys
 import telebot
 from decouple import config
-import botboi_bridge
-import sys
+from telegram_script import botboi_bridge
 
 
 tgm_token = config("TELEGRAM_API_TOKEN")

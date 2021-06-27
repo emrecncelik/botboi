@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
+import sys
 import pickle
 from decouple import config
-import sys
 from inspect import signature
 
 
