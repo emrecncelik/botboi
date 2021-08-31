@@ -3,12 +3,17 @@
 A Discord bot for personal use.
 
 ## Commands
+### Dev
+- ```!authorize```: authorize a user to use dev commands.
+- ```!foo```: returns a silly reply, just for test.
+- ```!reload```: reloads updated cogs.
+- ```!gtfo```: terminates application.
+- ```!delete```: deletes given number of last messages.
 
-Here are the commands to use it,
-- !reddit: Lists top Reddit posts from chosen time and subreddit
-- !gif: Gets a gif related to input search query from Tenor
-- !purge: Deletes messages in a channel
-- !ping: Pong.
-- !reload: Reloads a command if the code is updated (dev)
+### Reddit
+
+- ```!whoisthis```: replies with the reddit bot's username.
+- ```!sub```: gets top posts from a given subreddit with a time filter (all, week etc.).
+- ```!subsearch```: searches for a query and gets related posts from a subreddit.
 
 Aaaaaand that's it for now.
